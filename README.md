@@ -1,1 +1,465 @@
-# Tintin-bot-developpeur.github.io
+# liste-noel-augustin.github.io
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liste de Noël d'Augustin</title>
+    <style>
+      :root {
+        --bg-1: #070f0d;
+        --bg-2: #0d211b;
+        --card: #fbf7ef;
+        --ink: #1d1a16;
+        --muted: #7c7160;
+        --green: #166a4a;
+        --green-soft: #e4f2ea;
+        --red: #a8232b;
+        --red-soft: #f9e8e7;
+        --gold: #b98a2f;
+        --gold-soft: #f7efdc;
+        --line: #e9e1d2;
+        font-family: "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(1100px 700px at 85% -10%, rgba(168,35,43,.35), transparent 60%),
+          radial-gradient(900px 600px at -10% 110%, rgba(22,106,74,.45), transparent 60%),
+          linear-gradient(165deg, var(--bg-1) 0%, var(--bg-2) 60%, #241012 130%);
+        color: #f6f1e7;
+        padding: 42px 18px 60px;
+        display: flex;
+        justify-content: center;
+      }
+      .snow { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+      .snow span { position: absolute; top: -3vh; color: rgba(255,255,255,.55); font-size: 13px; animation: fall linear infinite; }
+      @keyframes fall { to { transform: translateY(110vh) translateX(6vw); } }
+      .card {
+        position: relative;
+        width: 100%;
+        max-width: 860px;
+        background: var(--card);
+        color: var(--ink);
+        border-radius: 26px;
+        padding: 46px 50px 50px;
+        box-shadow: 0 40px 90px rgba(0,0,0,.55), 0 2px 0 rgba(255,255,255,.06) inset;
+        overflow: hidden;
+        z-index: 2;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 7px;
+        background: linear-gradient(90deg, var(--red) 0 25%, var(--gold) 25% 50%, var(--green) 50% 75%, var(--red) 75%);
+      }
+      header { text-align: center; margin-bottom: 30px; }
+      .eyebrow { font-size: 12px; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin: 0 0 10px; }
+      h1 { font-family: Georgia, "Times New Roman", serif; font-size: clamp(28px, 5vw, 40px); margin: 0 0 6px; letter-spacing: -.01em; color: var(--ink); }
+      h1 em { font-style: normal; color: var(--red); }
+      .subtitle { font-style: italic; color: var(--muted); margin: 0 0 22px; }
+      .namefield {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: #fff;
+        border: 1.5px solid var(--line);
+        border-radius: 999px;
+        padding: 6px 8px 6px 20px;
+        box-shadow: 0 4px 14px rgba(0,0,0,.06);
+        transition: border-color .2s, box-shadow .2s;
+      }
+      .namefield:focus-within { border-color: var(--green); box-shadow: 0 4px 18px rgba(22,106,74,.18); }
+      .namefield label { font-size: 14.5px; color: var(--muted); font-weight: 500; }
+      .namefield input {
+        font-family: inherit;
+        font-size: 16.5px;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: var(--ink);
+        width: 190px;
+        padding: 6px 0;
+        text-align: center;
+        font-weight: 600;
+      }
+      .namefield input::placeholder { color: #b9ae9c; font-weight: 400; }
+      h2 {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        font-size: 13px;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--green);
+        margin: 38px 0 10px;
+      }
+      h2 .rule { flex: 1; border-top: 1px solid var(--line); transform: translateY(-3px); }
+      ul { list-style: none; padding: 0; margin: 0; }
+      li {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 15px 10px;
+        border-radius: 14px;
+        transition: background .18s;
+      }
+      li:hover { background: #f4eee1; }
+      li + li { margin-top: 2px; }
+      .box {
+        flex: 0 0 auto;
+        width: 26px; height: 26px;
+        border: 1.8px solid #cabfa9;
+        border-radius: 9px;
+        background: #fff;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        color: #fff;
+        margin-top: 1px;
+        transition: background .15s, border-color .15s, transform .12s;
+      }
+      .box:focus-visible, .chip:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+      @media (prefers-reduced-motion: reduce) { .snow { display: none; } * { animation: none !important; } }
+      .box:hover { transform: scale(1.12); border-color: var(--green); }
+      .box.checked { background: var(--green); border-color: var(--green); animation: pop .25s ease; }
+      @keyframes pop { 50% { transform: scale(1.28); } }
+      .item { font-size: 16px; line-height: 1.45; flex: 1; min-width: 240px; }
+      .item b { font-weight: 600; }
+      .detail { display: block; font-size: 13px; color: var(--muted); font-style: italic; margin-top: 3px; }
+      .badge {
+        display: inline-block;
+        margin-top: 6px;
+        font-size: 12.5px;
+        font-style: normal;
+        font-weight: 600;
+        color: var(--green);
+        background: var(--green-soft);
+        border-radius: 999px;
+        padding: 3px 12px;
+        white-space: nowrap;
+        animation: fadeUp .25s ease;
+      }
+      @keyframes fadeUp { from { opacity: 0; transform: translateY(4px); } }
+      .take {
+        display: block;
+        margin-top: 8px;
+        font-family: inherit;
+        font-size: 13.5px;
+        padding: 7px 12px;
+        border: 1.5px dashed #cabfa9;
+        border-radius: 10px;
+        background: #fff;
+        color: var(--ink);
+        outline: none;
+        width: min(320px, 100%);
+        transition: border-color .2s;
+      }
+      .take:focus { border: 1.5px solid var(--green); }
+      .take::placeholder { color: #b9ae9c; }
+      /* Grille de tomes */
+      .chips {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+        gap: 7px;
+        margin-top: 10px;
+        width: 100%;
+      }
+      .chip {
+        border: 1.5px solid #cabfa9;
+        background: #fff;
+        border-radius: 10px;
+        padding: 6px 2px;
+        text-align: center;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--ink);
+        cursor: pointer;
+        user-select: none;
+        transition: background .15s, border-color .15s, transform .12s, color .15s;
+        position: relative;
+      }
+      .chip:hover { transform: scale(1.1); border-color: var(--green); }
+      .chip.checked {
+        background: var(--green);
+        border-color: var(--green);
+        color: #fff;
+        animation: pop .25s ease;
+      }
+      .chip.next { border-style: dashed; }
+      .whotakes { width: 100%; margin-top: 4px; }
+      .whotakes .line {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--green);
+        background: var(--green-soft);
+        border-radius: 999px;
+        padding: 3px 12px;
+        margin: 4px 6px 0 0;
+        animation: fadeUp .25s ease;
+      }
+      .whotakes .line .rm { cursor: pointer; color: var(--red); font-weight: 700; }
+      .whotakes .line .rm:hover { transform: scale(1.2); display: inline-block; }
+      .chipcount { font-size: 12.5px; color: var(--muted); font-style: italic; margin-top: 8px; }
+      footer { text-align: center; margin-top: 42px; padding-top: 26px; border-top: 1px solid var(--line); }
+      #summary { display: block; font-size: 15.5px; font-weight: 600; color: var(--red); margin-bottom: 6px; }
+      footer .thanks { font-style: italic; color: var(--muted); font-size: 14.5px; }
+      .sharerow { margin-top: 18px; font-size: 12.5px; color: var(--muted); font-style: italic; }
+      .toast {
+        position: fixed;
+        bottom: 26px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: var(--green);
+        color: #fff;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 11px 22px;
+        border-radius: 999px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .3s, transform .3s;
+        z-index: 20;
+        box-shadow: 0 12px 30px rgba(0,0,0,.35);
+      }
+      .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+      /* Écran d'accueil */
+      #intro {
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background: rgba(7,15,13,.75);
+        backdrop-filter: blur(10px);
+        transition: opacity .5s;
+      }
+      #intro.hidden { opacity: 0; pointer-events: none; }
+      .intro-card {
+        max-width: 660px;
+        width: 100%;
+        background: var(--card);
+        border-radius: 26px;
+        padding: 40px 42px 38px;
+        text-align: center;
+        color: var(--ink);
+        box-shadow: 0 40px 90px rgba(0,0,0,.6);
+        animation: fadeUp .4s ease;
+      }
+      .intro-card .eyebrow { margin-bottom: 14px; }
+      .intro-card h2 { display: block; font-family: Georgia, serif; font-size: clamp(24px, 4vw, 31px); letter-spacing: 0; text-transform: none; color: var(--ink); margin: 0 0 8px; }
+      .intro-card h2 em { font-style: normal; color: var(--red); }
+      .intro-card .sub { font-style: italic; color: var(--muted); margin: 0 0 26px; }
+      .steps { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 26px; text-align: left; }
+      @media (max-width: 540px) { .steps { grid-template-columns: 1fr; } }
+      .step {
+        background: #fff;
+        border: 1.5px solid var(--line);
+        border-radius: 16px;
+        padding: 15px 16px;
+        cursor: pointer;
+        transition: transform .18s, border-color .18s, box-shadow .18s;
+        font-size: 14.5px;
+      }
+      .step:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,.08); }
+      .step.open { border-color: var(--green); }
+      .step.done { border-color: var(--green); background: var(--green-soft); }
+      .step .head { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+      .step .num {
+        flex: 0 0 auto;
+        width: 27px; height: 27px;
+        border-radius: 50%;
+        background: var(--red);
+        color: #fff;
+        font-weight: 700;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background .2s;
+      }
+      .step.done .num { background: var(--green); }
+      .step .hint { max-height: 0; overflow: hidden; transition: max-height .3s ease, margin .3s ease; font-style: italic; color: var(--muted); font-size: 13px; }
+      .step.open .hint { max-height: 140px; margin-top: 9px; }
+      #startBtn {
+        font-family: inherit;
+        font-size: 16.5px;
+        font-weight: 700;
+        color: #fff;
+        background: linear-gradient(135deg, var(--red), #7c141b);
+        border: none;
+        border-radius: 999px;
+        padding: 13px 40px;
+        cursor: pointer;
+        transition: transform .18s, box-shadow .18s, opacity .2s;
+      }
+      #startBtn:hover:not([disabled]) { transform: scale(1.05); box-shadow: 0 12px 26px rgba(168,35,43,.35); }
+      #startBtn[disabled] { opacity: .45; cursor: not-allowed; }
+      .progress { font-size: 13.5px; color: var(--muted); margin-top: 14px; font-style: italic; }
+      @media (max-width: 600px) { .card { padding: 34px 24px 38px; } }
+      @media print {
+        body { background: #fff; padding: 0; }
+        .snow, #intro, .take, .sharerow { display: none; }
+        .card { box-shadow: none; }
+      }
+      .cagnotte-btn { display:block; width:fit-content; margin-top:10px; font-size:12.5px; font-weight:600; color:var(--gold); background:var(--gold-soft); border:1.5px solid #e6d5ab; border-radius:999px; padding:4px 14px; cursor:pointer; user-select:none; }
+      .cagnotte-btn:hover { background:#efe0bb; }
+      .cagnotte { flex:1 0 100%; margin:14px 0 0; background:#fffdf6; border:1.5px solid #e6d5ab; border-radius:14px; padding:14px 16px; font-size:14px; }
+      .cagnotte .row { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:10px; }
+      .cagnotte input { font-family:inherit; font-size:14.5px; padding:8px 12px; border:1.5px solid var(--line); border-radius:10px; background:#fff; outline:none; color:var(--ink); width:150px; }
+      .cagnotte input.amt { width:100px; }
+      .cagnotte input:focus { border-color:var(--gold); }
+      .cagnotte button { font-family:inherit; font-size:14px; font-weight:700; color:#fff; background:var(--gold); border:none; border-radius:10px; padding:8px 20px; cursor:pointer; }
+      .contrib { display:inline-flex; align-items:center; gap:6px; background:#fff; border:1px solid #eadfc4; border-radius:999px; padding:3px 12px; margin:6px 6px 0 0; font-size:13px; }
+      .contrib .rm { cursor:pointer; color:var(--red); font-weight:700; }
+      .total { margin-top:10px; font-weight:700; color:#7a5c14; font-size:14px; }
+    </style>
+  </head>
+  <body>
+    <div class="snow" id="snow"></div>
+
+    <div id="intro">
+      <div class="intro-card">
+        <div class="eyebrow">✦ Noël 2026 ✦</div>
+        <h2>La liste de Noël <em>d'Augustin</em> 🎄</h2>
+        <p class="sub">Touchez chaque étape pour la découvrir — puis entrez dans la liste&nbsp;:</p>
+        <div class="steps">
+          <div class="step" data-step="1">
+            <div class="head"><span class="num">1</span>Écrivez votre prénom</div>
+            <div class="hint">Dans la pastille « Vous êtes : … » en haut de la liste. Indispensable pour cocher un cadeau&nbsp;!</div>
+          </div>
+          <div class="step" data-step="2">
+            <div class="head"><span class="num">2</span>Cochez votre cadeau</div>
+            <div class="hint">Touchez le tome ou l'article que vous offrez : il passe au vert ✔ et affiche « offert par vous ». Un tome = une personne, plus de doublons&nbsp;!</div>
+          </div>
+          <div class="step" data-step="3">
+            <div class="head"><span class="num">3</span>Une vraie mémoire 💚</div>
+            <div class="hint">Tout ce qui est coché est enregistré automatiquement : la liste reste à jour sur tous les appareils.</div>
+          </div>
+        </div>
+        <button id="startBtn" disabled>Découvrir la liste 🎁</button>
+        <div class="progress" id="progress">0 étape sur 3 découverte</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <header>
+        <div class="eyebrow">✦ Noël 2026 ✦</div>
+        <h1>Liste de Noël <em>d'Augustin</em></h1>
+        <p class="subtitle">Cochez un tome ou un cadeau… Joyeux Noël ! 🎅</p>
+        <div class="namefield">
+          <label for="giver-name">Vous êtes&nbsp;:</label>
+          <input id="giver-name" type="text" placeholder="votre prénom ✍️" autocomplete="off" />
+        </div>
+      </header>
+
+      <h2><span>📚 Livres</span><span class="rule"></span></h2>
+      <ul>
+        <li class="tomes" data-from="3" data-to="34" data-name="Dragon Ball" data-suffix=" (Perfect Edition)">
+          <span class="item">Dragon Ball — Perfect Edition<span class="detail">Une case par tome : T3 → T34. Cliquez sur le tome que vous offrez !</span></span>
+        </li>
+        <li class="tomes" data-from="16" data-to="17" data-name="Spy × Family">
+          <span class="item">Spy × Family<span class="detail">T16 paru, T17 sort le 12 novembre — une seule édition existante ✔</span></span>
+        </li>
+        <li>
+          <span class="box"></span>
+          <span class="item">Les Misérables — Victor Hugo<span class="detail">Soit un seul livre, soit à partir du tome 1 — édition connue</span></span>
+        </li>
+        <li>
+          <span class="box"></span>
+          <span class="item">La Petite Princesse — Frances Hodgson Burnett<span class="detail">Un seul livre — édition connue, type Folio Junior</span></span>
+        </li>
+        <li class="tomes" data-from="17" data-to="21" data-name="Le Journal d'un Dégonflé">
+          <span class="item">Le Journal d'un Dégonflé<span class="detail">Une case par tome : T17 → T21 — une seule édition existante ✔</span></span>
+        </li>
+        <li class="tomes" data-from="3" data-to="114" data-name="One Piece">
+          <span class="item">One Piece<span class="detail">Une case par tome : T3 → T114 (T114 sort le 2 décembre) — une seule édition existante ✔</span></span>
+        </li>
+      </ul>
+
+      <h2><span>🎲 Jeux de société</span><span class="rule"></span></h2>
+      <ul>
+        <li><span class="box"></span><span class="item">Extension du Skyjo</span></li>
+      </ul>
+
+      <h2><span>🎮 Jeux vidéo <em style="letter-spacing:0;text-transform:none;font-weight:500;">— Nintendo Switch 2</em></span><span class="rule"></span></h2>
+      <ul>
+        <li><span class="box"></span><span class="item">Tomodachi Life</span></li>
+        <li><span class="box"></span><span class="item">Zelda : Ocarina of Time</span></li>
+        <li><span class="box"></span><span class="item">Hyrule Warriors : Les Chroniques du Seau</span></li>
+        <li><span class="box"></span><span class="item">Extension Pokémon : Z-A</span></li>
+      </ul>
+
+      <h2><span>🎄 Autres idées</span><span class="rule"></span></h2>
+      <ul>
+        <li class="cagnotte">
+          <span class="box"></span>
+          <span class="item">Hercules DJ Essential Kit <em style="font-size:13.5px;color:#7c7160;">ou</em> Hercules DJ Learning Kit</span>
+        </li>
+        <li><span class="box"></span><span class="item"><b>De l'argent</b> — beaucoup de sous 💰</span></li>
+        <li><span class="box"></span><span class="item">Du chocolat 🍫</span></li>
+      </ul>
+
+      <footer>
+        <span id="summary">Aucun cadeau choisi pour l'instant 🎁</span>
+        <span class="thanks">Merci beaucoup et joyeux Noël ! ✨🎅</span>
+        <div class="sharerow">💚 Tout ce que vous cochez est enregistré automatiquement — pas besoin de prévenir qui que ce soit !</div>
+      </footer>
+    </div>
+
+    <div class="toast" id="toast">✔</div>
+
+    <script>
+      var nameInput = document.getElementById("giver-name");
+      var summary = document.getElementById("summary");
+      var toast = document.getElementById("toast");
+      var toastTimer = null;
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 2200);
+      }
+
+      function esc(t) {
+        return String(t).replace(/[&<>"']/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+      }
+      function keyClick(el) {
+        el.tabIndex = 0;
+        el.setAttribute("role", "button");
+        el.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); el.click(); }
+        });
+      }
+
+      // Neige animée
+      (function () {
+        var snow = document.getElementById("snow");
+        for (var i = 0; i < 26; i++) {
+          var s = document.createElement("span");
+          s.textContent = "❄";
+          s.style.left = (Math.random() * 100) + "vw";
+          s.style.animationDuration = (7 + Math.random() * 9) + "s";
+          s.style.animationDelay = (-Math.random() * 12) + "s";
+          s.style.fontSize = (8 + Math.random() * 10) + "px";
+          s.style.opacity = 0.25 + Math.random() * 0.5;
+          snow.appendChild(s);
+        }
+      })();
+
+      /* ============ MÉMOIRE PARTAGÉE ============ */
+      var STORE_KEY = "liste-noel-augustin-2026"
