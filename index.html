@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Liste de Noël d'Augustin : cochez les cadeaux et gardez la mémoire partagée." />
+    <title>liste-noel-augustin</title>
+    <style>
+      :root {
+        --bg-1: #07170f;
+        --bg-2: #122f27;
+        --card: #fffaf3;
+        --ink: #1b1b1b;
+        --muted: #6b625d;
+        --line: #e6dbc9;
+        --green: #1b7d57;
+        --green-soft: #e9f8f1;
+        --red: #a3322f;
+        --gold: #b98b38;
+        --gold-soft: #faf1d7;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(1000px 600px at 85% -10%, rgba(163,50,47,0.28), transparent 55%),
+          radial-gradient(900px 600px at -10% 110%, rgba(27,125,87,0.32), transparent 60%),
+          linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 60%, #1d1115 120%);
+        display: flex;
+        justify-content: center;
+        padding: 32px 18px 64px;
+      }
+
+      .snow {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+
+      .snow span {
+        position: absolute;
+        top: -5vh;
+        color: rgba(255,255,255,0.6);
+        font-size: 12px;
+        opacity: 0.6;
+        animation: fall linear infinite;
+      }
+
+      @keyframes fall {
+        to { transform: translate3d(8vw, 110vh, 0); }
+      }
+
+      .page {
+        position: relative;
+        z-index: 1;
+        width: min(920px, 100%);
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: 28px;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+        overflow: hidden;
+      }
+
+      .topbar {
+        height: 8px;
+        background: linear-gradient(90deg, var(--red) 0 25%, var(--gold) 25% 50%, var(--green) 50% 75%, var(--red) 75%);
+      }
+
+      .content {
+        padding: 40px 42px 52px;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.28em;
+        color: var(--gold);
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 0;
+        text-align: center;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(30px, 5vw, 42px);
+        letter-spacing: -0.02em;
+      }
+
+      h1 em {
+        font-style: normal;
+        color: var(--red);
+      }
+
+      .subtitle {
+        margin: 12px 0 24px;
+        text-align: center;
+        color: var(--muted);
+        font-style: italic;
+        font-size: 1.05rem;
+      }
+
+      .namefield {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 0 auto 26px;
+        padding: 8px 18px 8px 22px;
+        border: 1.5px solid var(--line);
+        border-radius: 999px;
+        background: white;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+        display: flex;
+      }
+
+      .namefield label {
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .namefield input {
+        border: none;
+        background: transparent;
+        color: var(--ink);
+        font-size: 1.05rem;
+        font-weight: 700;
+        width: 200px;
+        outline: none;
+        text-align: center;
+      }
+
+      .namefield input::placeholder { color: #b3a99a; }
+
+      .section-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 34px 0 12px;
+        font-size: 13px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--green);
+        font-weight: 800;
+      }
+
+      .section-title::after {
+        content: "";
+        flex: 1;
+        border-top: 1px solid var(--line);
+      }
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      li {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 14px 10px;
+        border-radius: 14px;
+        transition: background 0.15s ease;
+      }
+
+      li:hover { background: #f6f0e7; }
+
+      .box {
+        position: relative;
+        width: 26px;
+        height: 26px;
+        border-radius: 8px;
+        border: 1.8px solid #c4b59a;
+        background: white;
+        flex-shrink: 0;
+        cursor: pointer;
+        transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+      }
+
+      .box:hover {
+        transform: scale(1.1);
+        border-color: var(--green);
+      }
+
+      .box.checked {
+        background: var(--green);
+        border-color: var(--green);
+      }
+
+      .box.checked::after {
+        content: "✔";
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        font-size: 14px;
+        color: white;
+        font-weight: 700;
+      }
+
+      .item {
+        flex: 1;
+        min-width: 0;
+        color: var(--ink);
+        font-size: 1.05rem;
+        line-height: 1.5;
+      }
+
+      .item strong {
+        font-weight: 700;
+      }
+
+      .detail {
+        display: block;
+        margin-top: 4px;
+        font-size: 0.8rem;
+        color: var(--muted);
+        font-style: italic;
+      }
+
+      .tag {
+        display: inline-block;
+        margin-top: 8px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--green-soft);
+        color: var(--green);
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .footer {
+        margin-top: 32px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+        text-align: center;
+      }
+
+      #summary {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--red);
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
+      .thanks {
+        display: block;
+        color: var(--muted);
+        font-style: italic;
+      }
+
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 28px;
+        transform: translateX(-50%) translateY(18px);
+        background: var(--green);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 999px;
+        font-weight: 700;
+        box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        z-index: 10;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      @media (max-width: 620px) {
+        .content { padding: 28px 20px 38px; }
+        .namefield { border-radius: 20px; }
+        .namefield input { width: 150px; }
+        .section-title { letter-spacing: 0.12em; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="snow" id="snow"></div>
+
+    <main class="page">
+      <section class="card" aria-label="Liste de Noël d'Augustin">
+        <div class="topbar"></div>
+        <div class="content">
+          <p class="eyebrow">✦ Noël 2026 ✦</p>
+          <h1>Liste de Noël <em>d'Augustin</em></h1>
+          <p class="subtitle">Cochez les cadeaux et gardez la mémoire en toute simplicité.</p>
+
+          <div class="namefield">
+            <label for="giver-name">Vous êtes :</label>
+            <input id="giver-name" type="text" placeholder="votre prénom" autocomplete="off" />
+          </div>
+
+          <div class="section-title">📚 Livres</div>
+          <ul>
+            <li><span class="box" data-item="Dragon Ball — Perfect Edition"></span><span class="item"><strong>Dragon Ball — Perfect Edition</strong><span class="detail">Une case par tome : T3 → T34.</span></span></li>
+            <li><span class="box" data-item="Spy × Family"></span><span class="item"><strong>Spy × Family</strong><span class="detail">T16 paru, T17 arrive bientôt.</span></span></li>
+            <li><span class="box" data-item="Les Misérables — Victor Hugo"></span><span class="item"><strong>Les Misérables</strong> — Victor Hugo<span class="detail">Un seul livre ou à partir du tome 1.</span></span></li>
+            <li><span class="box" data-item="La Petite Princesse"></span><span class="item"><strong>La Petite Princesse</strong> — Frances Hodgson Burnett<span class="detail">Un seul livre — édition connue.</span></span></li>
+            <li><span class="box" data-item="Le Journal d'un Dégonflé"></span><span class="item"><strong>Le Journal d'un Dégonflé</strong><span class="detail">T17 → T21.</span></span></li>
+            <li><span class="box" data-item="One Piece"></span><span class="item"><strong>One Piece</strong><span class="detail">T3 → T114.</span></span></li>
+          </ul>
+
+          <div class="section-title">🎲 Jeux</div>
+          <ul>
+            <li><span class="box" data-item="Extension du Skyjo"></span><span class="item"><strong>Extension du Skyjo</strong></span></li>
+          </ul>
+
+          <div class="section-title">🎮 Jeux vidéo</div>
+          <ul>
+            <li><span class="box" data-item="Tomodachi Life"></span><span class="item"><strong>Tomodachi Life</strong></span></li>
+            <li><span class="box" data-item="Zelda : Ocarina of Time"></span><span class="item"><strong>Zelda : Ocarina of Time</strong></span></li>
+            <li><span class="box" data-item="Hyrule Warriors : Les Chroniques du Seau"></span><span class="item"><strong>Hyrule Warriors : Les Chroniques du Seau</strong></span></li>
+            <li><span class="box" data-item="Extension Pokémon : Z-A"></span><span class="item"><strong>Extension Pokémon : Z-A</strong></span></li>
+          </ul>
+
+          <div class="section-title">🎄 Autres idées</div>
+          <ul>
+            <li><span class="box" data-item="Hercules DJ Essential Kit / Hercules DJ Learning Kit"></span><span class="item"><strong>Hercules DJ Essential Kit</strong> ou <strong>Hercules DJ Learning Kit</strong></span></li>
+            <li><span class="box" data-item="De l'argent"></span><span class="item"><strong>De l'argent</strong> — beaucoup de sous 💰</span></li>
+            <li><span class="box" data-item="Du chocolat"></span><span class="item"><strong>Du chocolat</strong> 🍫</span></li>
+          </ul>
+
+          <footer class="footer">
+            <span id="summary">Aucun cadeau choisi pour l'instant 🎁</span>
+            <span class="thanks">Merci beaucoup et joyeux Noël ! ✨🎅</span>
+          </footer>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast">Sauvegardé</div>
+
+    <script>
+      const STORE_KEY = 'liste-noel-augustin-2026';
+      const nameInput = document.getElementById('giver-name');
+      const summary = document.getElementById('summary');
+      const toast = document.getElementById('toast');
+      const boxes = [...document.querySelectorAll('.box')];
+      let toastTimer = null;
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+      }
+
+      function saveState() {
+        const checkedItems = boxes.filter(box => box.classList.contains('checked')).map(box => box.dataset.item);
+        localStorage.setItem(STORE_KEY, JSON.stringify({
+          giver: nameInput.value.trim(),
+          checked: checkedItems
+        }));
+      }
+
+      function loadState() {
+        try {
+          const raw = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+          if (raw.giver) nameInput.value = raw.giver;
+          const selected = new Set(raw.checked || []);
+          boxes.forEach(box => {
+            if (selected.has(box.dataset.item)) {
+              box.classList.add('checked');
+            }
+          });
+        } catch (error) {
+          console.warn('Erreur de lecture du stockage local:', error);
+        }
+      }
+
+      function updateSummary() {
+        const selectedCount = boxes.filter(box => box.classList.contains('checked')).length;
+        if (selectedCount === 0) {
+          summary.textContent = 'Aucun cadeau choisi pour l\'instant 🎁';
+          return;
+        }
+        const giver = nameInput.value.trim() || 'Quelqu\'un';
+        summary.textContent = `${giver} a déjà réservé ${selectedCount} cadeau${selectedCount > 1 ? 'x' : ''} ✨`;
+      }
+
+      boxes.forEach(box => {
+        box.addEventListener('click', () => {
+          box.classList.toggle('checked');
+          updateSummary();
+          saveState();
+          showToast(box.classList.contains('checked') ? 'Cadeau réservé' : 'Cadeau annulé');
+        });
+
+        box.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            box.click();
+          }
+        });
+
+        box.setAttribute('tabindex', '0');
+        box.setAttribute('role', 'button');
+        box.setAttribute('aria-pressed', String(box.classList.contains('checked')));
+      });
+
+      nameInput.addEventListener('input', () => {
+        updateSummary();
+        saveState();
+      });
+
+      (function addSnow() {
+        const snow = document.getElementById('snow');
+        for (let i = 0; i < 24; i++) {
+          const flake = document.createElement('span');
+          flake.textContent = '❄';
+          flake.style.left = `${Math.random() * 100}vw`;
+          flake.style.fontSize = `${8 + Math.random() * 10}px`;
+          flake.style.opacity = String(0.25 + Math.random() * 0.6);
+          flake.style.animationDuration = `${8 + Math.random() * 8}s`;
+          flake.style.animationDelay = `${-Math.random() * 10}s`;
+          snow.appendChild(flake);
+        }
+      })();
+
+      loadState();
+      updateSummary();
+    </script>
+  </body>
+</html>
