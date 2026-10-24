@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Liste de Noël d'Augustin</title>
+    <title>liste-noel-augustin</title>
     <style>
       :root {
         --bg-1: #070f0d;
@@ -136,8 +136,6 @@
         transition: background .15s, border-color .15s, transform .12s, box-shadow .15s;
         position: relative;
       }
-      .box:focus-visible, .chip:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
-      @media (prefers-reduced-motion: reduce) { .snow { display: none; } * { animation: none !important; } }
       .box:hover { transform: scale(1.12); border-color: var(--green); }
       .box.checked { background: var(--green); border-color: var(--green); animation: pop .25s ease; box-shadow: 0 8px 18px rgba(22,106,74,.2); }
       .box.checked::after { content: "✔"; position:absolute; inset:0; display:grid; place-items:center; font-size:14px; color:#fff; font-weight:700; }
@@ -146,38 +144,6 @@
       .item { font-size: 16px; line-height: 1.45; flex: 1; min-width: 240px; }
       .item b { font-weight: 600; }
       .detail { display: block; font-size: 13px; color: var(--muted); font-style: italic; margin-top: 3px; }
-
-      .badge {
-        display: inline-block;
-        margin-top: 6px;
-        font-size: 12.5px;
-        font-style: normal;
-        font-weight: 600;
-        color: var(--green);
-        background: var(--green-soft);
-        border-radius: 999px;
-        padding: 3px 12px;
-        white-space: nowrap;
-        animation: fadeUp .25s ease;
-      }
-      @keyframes fadeUp { from { opacity: 0; transform: translateY(4px); } }
-
-      .take {
-        display: block;
-        margin-top: 8px;
-        font-family: inherit;
-        font-size: 13.5px;
-        padding: 7px 12px;
-        border: 1.5px dashed #cabfa9;
-        border-radius: 10px;
-        background: #fff;
-        color: var(--ink);
-        outline: none;
-        width: min(320px, 100%);
-        transition: border-color .2s;
-      }
-      .take:focus { border: 1.5px solid var(--green); }
-      .take::placeholder { color: #b9ae9c; }
 
       .chips {
         display: grid;
@@ -200,36 +166,17 @@
         transition: background .15s, border-color .15s, transform .12s, color .15s;
         position: relative;
       }
-      .chip:hover { transform: scale(1.1); border-color: var(--green); }
+      .chip:hover { transform: scale(1.08); border-color: var(--green); }
       .chip.checked {
         background: var(--green);
         border-color: var(--green);
         color: #fff;
         animation: pop .25s ease;
       }
-      .chip.next { border-style: dashed; }
 
-      .whotakes { width: 100%; margin-top: 4px; }
-      .whotakes .line {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--green);
-        background: var(--green-soft);
-        border-radius: 999px;
-        padding: 3px 12px;
-        margin: 4px 6px 0 0;
-        animation: fadeUp .25s ease;
-      }
-      .whotakes .line .rm { cursor: pointer; color: var(--red); font-weight: 700; }
-      .whotakes .line .rm:hover { transform: scale(1.2); display: inline-block; }
-      .chipcount { font-size: 12.5px; color: var(--muted); font-style: italic; margin-top: 8px; }
-
+      .summary-text { display: block; font-size: 15.5px; font-weight: 600; color: var(--red); margin-bottom: 6px; }
       footer { text-align: center; margin-top: 42px; padding-top: 26px; border-top: 1px solid var(--line); }
-      #summary { display: block; font-size: 15.5px; font-weight: 600; color: var(--red); margin-bottom: 6px; }
-      footer .thanks { font-style: italic; color: var(--muted); font-size: 14.5px; }
+      .thanks { font-style: italic; color: var(--muted); font-size: 14.5px; }
       .sharerow { margin-top: 18px; font-size: 12.5px; color: var(--muted); font-style: italic; }
 
       .toast {
@@ -275,6 +222,7 @@
         box-shadow: 0 40px 90px rgba(0,0,0,.6);
         animation: fadeUp .4s ease;
       }
+      @keyframes fadeUp { from { opacity: 0; transform: translateY(4px); } }
       .intro-card .eyebrow { margin-bottom: 14px; }
       .intro-card h2 { display: block; font-family: Georgia, serif; font-size: clamp(24px, 4vw, 31px); letter-spacing: 0; text-transform: none; color: var(--ink); margin: 0 0 8px; }
       .intro-card h2 em { font-style: normal; color: var(--red); }
@@ -310,6 +258,7 @@
       .step.done .num { background: var(--green); }
       .step .hint { max-height: 0; overflow: hidden; transition: max-height .3s ease, margin .3s ease; font-style: italic; color: var(--muted); font-size: 13px; }
       .step.open .hint { max-height: 140px; margin-top: 9px; }
+
       #startBtn {
         font-family: inherit;
         font-size: 16.5px;
@@ -326,23 +275,6 @@
       #startBtn[disabled] { opacity: .45; cursor: not-allowed; }
       .progress { font-size: 13.5px; color: var(--muted); margin-top: 14px; font-style: italic; }
       @media (max-width: 600px) { .card { padding: 34px 24px 38px; } }
-      @media print {
-        body { background: #fff; padding: 0; }
-        .snow, #intro, .take, .sharerow { display: none; }
-        .card { box-shadow: none; }
-      }
-
-      .cagnotte-btn { display:block; width:fit-content; margin-top:10px; font-size:12.5px; font-weight:600; color:var(--gold); background:var(--gold-soft); border:1.5px solid #e6d5ab; border-radius:999px; padding:4px 14px; cursor:pointer; user-select:none; }
-      .cagnotte-btn:hover { background:#efe0bb; }
-      .cagnotte { flex:1 0 100%; margin:14px 0 0; background:#fffdf6; border:1.5px solid #e6d5ab; border-radius:14px; padding:14px 16px; font-size:14px; }
-      .cagnotte .row { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:10px; }
-      .cagnotte input { font-family:inherit; font-size:14.5px; padding:8px 12px; border:1.5px solid var(--line); border-radius:10px; background:#fff; outline:none; color:var(--ink); width:150px; }
-      .cagnotte input.amt { width:100px; }
-      .cagnotte input:focus { border-color:var(--gold); }
-      .cagnotte button { font-family:inherit; font-size:14px; font-weight:700; color:#fff; background:var(--gold); border:none; border-radius:10px; padding:8px 20px; cursor:pointer; }
-      .contrib { display:inline-flex; align-items:center; gap:6px; background:#fff; border:1px solid #eadfc4; border-radius:999px; padding:3px 12px; margin:6px 6px 0 0; font-size:13px; }
-      .contrib .rm { cursor:pointer; color:var(--red); font-weight:700; }
-      .total { margin-top:10px; font-weight:700; color:#7a5c14; font-size:14px; }
     </style>
   </head>
   <body>
@@ -392,11 +324,11 @@
           <span class="item">Spy × Family<span class="detail">T16 paru, T17 sort le 12 novembre — une seule édition existante ✔</span></span>
         </li>
         <li>
-          <span class="box" data-key="Les Misérables — Victor Hugo"></span>
+          <span class="box"></span>
           <span class="item">Les Misérables — Victor Hugo<span class="detail">Soit un seul livre, soit à partir du tome 1 — édition connue</span></span>
         </li>
         <li>
-          <span class="box" data-key="La Petite Princesse — Frances Hodgson Burnett"></span>
+          <span class="box"></span>
           <span class="item">La Petite Princesse — Frances Hodgson Burnett<span class="detail">Un seul livre — édition connue, type Folio Junior</span></span>
         </li>
         <li class="tomes" data-from="17" data-to="21" data-name="Le Journal d'un Dégonflé">
@@ -409,29 +341,29 @@
 
       <h2><span>🎲 Jeux de société</span><span class="rule"></span></h2>
       <ul>
-        <li><span class="box" data-key="Extension du Skyjo"></span><span class="item">Extension du Skyjo</span></li>
+        <li><span class="box"></span><span class="item">Extension du Skyjo</span></li>
       </ul>
 
       <h2><span>🎮 Jeux vidéo <em style="letter-spacing:0;text-transform:none;font-weight:500;">— Nintendo Switch 2</em></span><span class="rule"></span></h2>
       <ul>
-        <li><span class="box" data-key="Tomodachi Life"></span><span class="item">Tomodachi Life</span></li>
-        <li><span class="box" data-key="Zelda : Ocarina of Time"></span><span class="item">Zelda : Ocarina of Time</span></li>
-        <li><span class="box" data-key="Hyrule Warriors : Les Chroniques du Seau"></span><span class="item">Hyrule Warriors : Les Chroniques du Seau</span></li>
-        <li><span class="box" data-key="Extension Pokémon : Z-A"></span><span class="item">Extension Pokémon : Z-A</span></li>
+        <li><span class="box"></span><span class="item">Tomodachi Life</span></li>
+        <li><span class="box"></span><span class="item">Zelda : Ocarina of Time</span></li>
+        <li><span class="box"></span><span class="item">Hyrule Warriors : Les Chroniques du Seau</span></li>
+        <li><span class="box"></span><span class="item">Extension Pokémon : Z-A</span></li>
       </ul>
 
       <h2><span>🎄 Autres idées</span><span class="rule"></span></h2>
       <ul>
-        <li class="cagnotte">
-          <span class="box" data-key="Hercules DJ Essential Kit / Hercules DJ Learning Kit"></span>
+        <li>
+          <span class="box"></span>
           <span class="item">Hercules DJ Essential Kit <em style="font-size:13.5px;color:#7c7160;">ou</em> Hercules DJ Learning Kit</span>
         </li>
-        <li><span class="box" data-key="De l'argent"></span><span class="item"><b>De l'argent</b> — beaucoup de sous 💰</span></li>
-        <li><span class="box" data-key="Du chocolat"></span><span class="item">Du chocolat 🍫</span></li>
+        <li><span class="box"></span><span class="item"><b>De l'argent</b> — beaucoup de sous 💰</span></li>
+        <li><span class="box"></span><span class="item">Du chocolat 🍫</span></li>
       </ul>
 
       <footer>
-        <span id="summary">Aucun cadeau choisi pour l'instant 🎁</span>
+        <span id="summary" class="summary-text">Aucun cadeau choisi pour l'instant 🎁</span>
         <span class="thanks">Merci beaucoup et joyeux Noël ! ✨🎅</span>
         <div class="sharerow">💚 Tout ce que vous cochez est enregistré automatiquement — pas besoin de prévenir qui que ce soit !</div>
       </footer>
@@ -440,102 +372,211 @@
     <div class="toast" id="toast">✔</div>
 
     <script>
+      window.LISTE_NOEL_CONFIG = {
+        binId: "6adc6b56ffd5d1605387d2e6",
+        masterKey: "$2a$10$jrjG7h7uWbCtD.SQEltyDOyyVOg1hLTvBCtKhmklk3Eqo1X4G27ey"
+      };
+
+      var STORAGE_KEY = "liste-noel-augustin-2026";
       var nameInput = document.getElementById("giver-name");
       var summary = document.getElementById("summary");
       var toast = document.getElementById("toast");
       var toastTimer = null;
-      var STORE_KEY = "liste-noel-augustin-2026";
+      var startBtn = document.getElementById("startBtn");
+      var intro = document.getElementById("intro");
+      var steps = Array.from(document.querySelectorAll(".step"));
+      var progress = document.getElementById("progress");
 
-      function showToast(msg) {
-        toast.textContent = msg;
-        toast.classList.add("show");
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 2200);
+      function normalizeKey(text) {
+        return String(text || "")
+          .trim()
+          .replace(/\s+/g, " ")
+          .replace(/[\u200B-\u200D\uFEFF]/g, "");
       }
 
-      function esc(t) {
-        return String(t).replace(/[&<>\"']/g, function (c) {
-          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      function getItemKey(element) {
+        if (element.dataset && element.dataset.item) return normalizeKey(element.dataset.item);
+        if (element.dataset && element.dataset.key) return normalizeKey(element.dataset.key);
+
+        var parent = element.closest("li");
+        if (parent) {
+          var text = parent.textContent || "";
+          return normalizeKey(text);
+        }
+
+        return normalizeKey(element.textContent || "item");
+      }
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          toast.classList.remove("show");
+        }, 1800);
+      }
+
+      function readLocalState() {
+        try {
+          var raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+          return {
+            giver: raw.giver || "",
+            selected: raw.selected || {}
+          };
+        } catch (e) {
+          return { giver: "", selected: {} };
+        }
+      }
+
+      function persistLocalState(payload) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+        } catch (e) {
+          console.warn("localStorage unavailable", e);
+        }
+      }
+
+      function currentSelectedMap() {
+        var selected = {};
+        document.querySelectorAll(".box, .chip").forEach(function (element) {
+          if (element.classList.contains("checked")) {
+            selected[getItemKey(element)] = true;
+          }
         });
+        return selected;
+      }
+
+      function applySelection(selectedMap) {
+        document.querySelectorAll(".box, .chip").forEach(function (element) {
+          var key = getItemKey(element);
+          var checked = !!selectedMap[key];
+          element.classList.toggle("checked", checked);
+          if (element.tagName === "BUTTON") {
+            element.setAttribute("aria-pressed", String(checked));
+          }
+        });
+      }
+
+      function updateSummary() {
+        var count = document.querySelectorAll(".box.checked, .chip.checked").length;
+        if (!count) {
+          summary.textContent = "Aucun cadeau choisi pour l'instant 🎁";
+          return;
+        }
+        var giver = nameInput.value.trim() || "Quelqu'un";
+        summary.textContent = giver + " a déjà réservé " + count + " cadeau" + (count > 1 ? "x" : "") + " ✨";
+      }
+
+      function isJsonBinEnabled() {
+        return !!(window.LISTE_NOEL_CONFIG && window.LISTE_NOEL_CONFIG.binId && window.LISTE_NOEL_CONFIG.masterKey);
+      }
+
+      function fetchJsonBin() {
+        if (!isJsonBinEnabled()) return Promise.resolve(null);
+
+        return fetch("https://api.jsonbin.io/v3/b/" + window.LISTE_NOEL_CONFIG.binId, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Master-Key": window.LISTE_NOEL_CONFIG.masterKey
+          }
+        }).then(function (res) {
+          if (!res.ok) throw new Error("JSONBin GET impossible");
+          return res.json();
+        }).then(function (data) {
+          return data && data.record ? data.record : null;
+        });
+      }
+
+      function saveJsonBin(payload) {
+        if (!isJsonBinEnabled()) return Promise.resolve(null);
+
+        return fetch("https://api.jsonbin.io/v3/b/" + window.LISTE_NOEL_CONFIG.binId, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Master-Key": window.LISTE_NOEL_CONFIG.masterKey
+          },
+          body: JSON.stringify(payload)
+        }).then(function (res) {
+          if (!res.ok) throw new Error("JSONBin PUT impossible");
+          return res.json();
+        });
+      }
+
+      function saveState() {
+        var payload = {
+          giver: nameInput.value.trim(),
+          selected: currentSelectedMap()
+        };
+
+        persistLocalState(payload);
+
+        if (isJsonBinEnabled()) {
+          saveJsonBin(payload).catch(function (err) {
+            console.warn("Synchro JSONBin impossible", err);
+            showToast("Synchro locale seule");
+          });
+        }
+      }
+
+      function loadState() {
+        var local = readLocalState();
+        if (local.giver) nameInput.value = local.giver;
+
+        if (isJsonBinEnabled()) {
+          fetchJsonBin().then(function (remoteState) {
+            if (remoteState && remoteState.selected) {
+              applySelection(remoteState.selected);
+              if (remoteState.giver) nameInput.value = remoteState.giver;
+            } else {
+              applySelection(local.selected || {});
+            }
+            updateSummary();
+          }).catch(function (err) {
+            console.warn("Impossible de charger JSONBin, fallback local", err);
+            applySelection(local.selected || {});
+            updateSummary();
+          });
+        } else {
+          applySelection(local.selected || {});
+          updateSummary();
+        }
       }
 
       function keyClick(el) {
         el.tabIndex = 0;
         el.setAttribute("role", "button");
-        el.addEventListener("keydown", function (e) {
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); el.click(); }
+        el.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            el.click();
+          }
         });
-      }
-
-      function saveState() {
-        var selected = {};
-        document.querySelectorAll('.box.checked, .chip.checked').forEach(function (el) {
-          selected[el.dataset.key] = true;
-        });
-        localStorage.setItem(STORE_KEY, JSON.stringify({
-          giver: nameInput.value.trim(),
-          selected: selected
-        }));
-      }
-
-      function loadState() {
-        try {
-          var raw = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
-          if (raw.giver) nameInput.value = raw.giver;
-          var selected = raw.selected || {};
-          document.querySelectorAll('.box, .chip').forEach(function (el) {
-            if (selected[el.dataset.key]) {
-              el.classList.add('checked');
-            }
-          });
-        } catch (e) {
-          console.warn('Storage read failed', e);
-        }
-      }
-
-      function updateSummary() {
-        var count = document.querySelectorAll('.box.checked, .chip.checked').length;
-        if (!count) {
-          summary.textContent = 'Aucun cadeau choisi pour l\'instant 🎁';
-          return;
-        }
-        var giver = nameInput.value.trim() || 'Quelqu\'un';
-        summary.textContent = giver + ' a déjà réservé ' + count + ' cadeau' + (count > 1 ? 'x' : '') + ' ✨';
-      }
-
-      function attachSingleBox(box) {
-        box.addEventListener('click', function () {
-          box.classList.toggle('checked');
-          saveState();
-          updateSummary();
-          showToast(box.classList.contains('checked') ? 'Cadeau réservé' : 'Cadeau annulé');
-        });
-        keyClick(box);
       }
 
       function createTomeGrid(li) {
         var from = Number(li.dataset.from);
         var to = Number(li.dataset.to);
-        var name = li.dataset.name;
-        var suffix = li.dataset.suffix || '';
-        var chips = document.createElement('div');
-        chips.className = 'chips';
+        var name = li.dataset.name || "Tome";
+        var suffix = li.dataset.suffix || "";
+        var chips = document.createElement("div");
+        chips.className = "chips";
 
         for (var i = from; i <= to; i++) {
-          var chip = document.createElement('button');
-          chip.type = 'button';
-          chip.className = 'chip';
-          chip.textContent = 'T' + i;
-          chip.dataset.key = name + suffix + ' T' + i;
-          chip.setAttribute('aria-label', name + suffix + ' tome ' + i);
-
-          chip.addEventListener('click', function () {
-            this.classList.toggle('checked');
-            saveState();
+          var chip = document.createElement("button");
+          chip.type = "button";
+          chip.className = "chip";
+          chip.textContent = "T" + i;
+          chip.dataset.item = name + suffix + " T" + i;
+          chip.dataset.key = chip.dataset.item;
+          chip.setAttribute("aria-label", name + suffix + " tome " + i);
+          chip.addEventListener("click", function () {
+            this.classList.toggle("checked");
             updateSummary();
-            showToast(this.classList.contains('checked') ? 'Tome réservé' : 'Tome annulé');
+            saveState();
+            showToast(this.classList.contains("checked") ? "Tome réservé" : "Tome annulé");
           });
-
           keyClick(chip);
           chips.appendChild(chip);
         }
@@ -543,68 +584,70 @@
         li.appendChild(chips);
       }
 
-      document.querySelectorAll('.box').forEach(function (box) {
-        attachSingleBox(box);
+      document.querySelectorAll(".box").forEach(function (box) {
+        var itemKey = normalizeKey(box.parentElement ? box.parentElement.textContent : box.textContent);
+        box.dataset.item = itemKey;
+        box.addEventListener("click", function () {
+          this.classList.toggle("checked");
+          updateSummary();
+          saveState();
+          showToast(this.classList.contains("checked") ? "Cadeau réservé" : "Cadeau annulé");
+        });
+        keyClick(box);
       });
 
-      document.querySelectorAll('.tomes').forEach(function (li) {
+      document.querySelectorAll(".tomes").forEach(function (li) {
         createTomeGrid(li);
       });
 
-      nameInput.addEventListener('input', function () {
+      nameInput.addEventListener("input", function () {
         updateSummary();
         saveState();
       });
 
       (function () {
-        var snow = document.getElementById('snow');
+        var snow = document.getElementById("snow");
         for (var i = 0; i < 26; i++) {
-          var s = document.createElement('span');
-          s.textContent = '❄';
-          s.style.left = (Math.random() * 100) + 'vw';
-          s.style.animationDuration = (7 + Math.random() * 9) + 's';
-          s.style.animationDelay = (-Math.random() * 12) + 's';
-          s.style.fontSize = (8 + Math.random() * 10) + 'px';
+          var s = document.createElement("span");
+          s.textContent = "❄";
+          s.style.left = (Math.random() * 100) + "vw";
+          s.style.animationDuration = (7 + Math.random() * 9) + "s";
+          s.style.animationDelay = (-Math.random() * 12) + "s";
+          s.style.fontSize = (8 + Math.random() * 10) + "px";
           s.style.opacity = 0.25 + Math.random() * 0.5;
           snow.appendChild(s);
         }
       })();
 
-      var intro = document.getElementById('intro');
-      var steps = Array.from(document.querySelectorAll('.step'));
-      var progress = document.getElementById('progress');
-      var startBtn = document.getElementById('startBtn');
-      var currentStep = 0;
-
       function updateIntroState() {
         steps.forEach(function (step) {
           var stepNum = Number(step.dataset.step);
           var isDone = stepNum <= currentStep;
-          step.classList.toggle('done', isDone);
-          step.classList.toggle('open', stepNum === currentStep && currentStep < 3);
+          step.classList.toggle("done", isDone);
+          step.classList.toggle("open", stepNum === currentStep && currentStep < 3);
         });
 
-        var done = steps.filter(function (step) { return step.classList.contains('done'); }).length;
-        progress.textContent = done + ' étape' + (done > 1 ? 's' : '') + ' sur 3 découverte';
+        var done = steps.filter(function (step) { return step.classList.contains("done"); }).length;
+        progress.textContent = done + " étape" + (done > 1 ? "s" : "") + " sur 3 découverte";
         startBtn.disabled = done !== 3;
       }
 
+      var currentStep = 0;
       steps.forEach(function (step) {
-        step.addEventListener('click', function () {
+        step.addEventListener("click", function () {
           var stepNum = Number(this.dataset.step);
           currentStep = Math.max(currentStep, stepNum);
           updateIntroState();
         });
       });
 
-      startBtn.addEventListener('click', function () {
+      startBtn.addEventListener("click", function () {
         if (!startBtn.disabled) {
-          intro.classList.add('hidden');
+          intro.classList.add("hidden");
         }
       });
 
       loadState();
-      updateSummary();
       updateIntroState();
     </script>
   </body>
