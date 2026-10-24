@@ -579,8 +579,9 @@
       function updateIntroState() {
         steps.forEach(function (step) {
           var stepNum = Number(step.dataset.step);
-          step.classList.toggle('open', stepNum === currentStep);
-          step.classList.toggle('done', stepNum < currentStep);
+          var isDone = stepNum <= currentStep;
+          step.classList.toggle('done', isDone);
+          step.classList.toggle('open', stepNum === currentStep && currentStep < 3);
         });
 
         var done = steps.filter(function (step) { return step.classList.contains('done'); }).length;
@@ -590,7 +591,8 @@
 
       steps.forEach(function (step) {
         step.addEventListener('click', function () {
-          currentStep = Number(step.dataset.step);
+          var stepNum = Number(this.dataset.step);
+          currentStep = Math.max(currentStep, stepNum);
           updateIntroState();
         });
       });
