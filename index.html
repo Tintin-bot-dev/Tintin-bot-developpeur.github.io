@@ -153,22 +153,22 @@
 
       .namefield input::placeholder { color: #b3a99a; }
 
-      .section-title {
+      h2 {
         display: flex;
-        align-items: center;
-        gap: 12px;
-        margin: 34px 0 12px;
+        align-items: baseline;
+        gap: 10px;
         font-size: 13px;
-        letter-spacing: 0.18em;
+        letter-spacing: .18em;
         text-transform: uppercase;
+        font-weight: 700;
         color: var(--green);
-        font-weight: 800;
+        margin: 38px 0 10px;
       }
 
-      .section-title::after {
-        content: "";
+      h2 .rule {
         flex: 1;
         border-top: 1px solid var(--line);
+        transform: translateY(-3px);
       }
 
       ul {
@@ -209,7 +209,8 @@
         border-color: var(--green);
       }
 
-      .box:focus-visible {
+      .box:focus-visible,
+      .chip:focus-visible {
         outline: 3px solid rgba(185, 139, 56, 0.35);
         outline-offset: 2px;
       }
@@ -249,6 +250,43 @@
         font-size: 0.8rem;
         color: var(--muted);
         font-style: italic;
+      }
+
+      .chips {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+        gap: 7px;
+        margin-top: 10px;
+        width: 100%;
+      }
+
+      .chip {
+        border: 1.5px solid #cabfa9;
+        background: #fff;
+        border-radius: 10px;
+        padding: 6px 2px;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--ink);
+        cursor: pointer;
+        user-select: none;
+        transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease, color 0.15s ease;
+      }
+
+      .chip:hover {
+        transform: scale(1.05);
+        border-color: var(--green);
+      }
+
+      .chip.checked {
+        background: var(--green);
+        border-color: var(--green);
+        color: #fff;
+      }
+
+      .chip.next {
+        border-style: dashed;
       }
 
       .footer {
@@ -298,7 +336,7 @@
         .content { padding: 28px 20px 38px; }
         .namefield { border-radius: 20px; }
         .namefield input { width: 150px; }
-        .section-title { letter-spacing: 0.12em; }
+        h2 { letter-spacing: 0.12em; }
       }
     </style>
   </head>
@@ -317,34 +355,51 @@
             <input id="giver-name" type="text" placeholder="votre prénom" autocomplete="off" />
           </div>
 
-          <div class="section-title">📚 Livres</div>
+          <h2><span>📚 Livres</span><span class="rule"></span></h2>
           <ul>
-            <li><span class="box" data-item="Dragon Ball — Perfect Edition" tabindex="0" role="button" aria-pressed="false"></span><span class="item"><strong>Dragon Ball — Perfect Edition</strong><span class="detail">Une case par tome : T3 → T34.</span></span></li>
-            <li><span class="box" data-item="Spy × Family" tabindex="0" role="button" aria-pressed="false"></span><span class="item"><strong>Spy × Family</strong><span class="detail">T16 paru, T17 arrive bientôt.</span></span></li>
-            <li><span class="box" data-item="Les Misérables — Victor Hugo" tabindex="0" role="button" aria-pressed="false"></span><span class="item"><strong>Les Misérables</strong> — Victor Hugo<span class="detail">Un seul livre ou à partir du tome 1.</span></span></li>
-            <li><span class="box" data-item="La Petite Princesse" tabindex="0" role="button" aria-pressed="false"></span><span class="item"><strong>La Petite Princesse</strong> — Frances Hodgson Burnett<span class="detail">Un seul livre — édition connue.</span></span></li>
-            <li><span class="box" data-item="Le Journal d'un Dégonflé" tabindex="0" role="button" aria-pressed="false"></span><span class="item"><strong>Le Journal d'un Dégonflé</strong><span class="detail">T17 → T21.</span></span></li>
-            <li><span class="box" data-item="One Piece" tabindex="0" role="button" aria-pressed="false"></span><span class="item"><strong>One Piece</strong><span class="detail">T3 → T114.</span></span></li>
+            <li class="tomes" data-from="3" data-to="34" data-name="Dragon Ball" data-suffix=" (Perfect Edition)">
+              <span class="item">Dragon Ball — Perfect Edition<span class="detail">Une case par tome : T3 → T34. Cliquez sur le tome que vous offrez !</span></span>
+            </li>
+            <li class="tomes" data-from="16" data-to="17" data-name="Spy × Family">
+              <span class="item">Spy × Family<span class="detail">T16 paru, T17 sort bientôt — une seule édition existante ✔</span></span>
+            </li>
+            <li>
+              <span class="box" data-key="Les Misérables — Victor Hugo"></span>
+              <span class="item">Les Misérables — Victor Hugo<span class="detail">Soit un seul livre, soit à partir du tome 1 — édition connue</span></span>
+            </li>
+            <li>
+              <span class="box" data-key="La Petite Princesse — Frances Hodgson Burnett"></span>
+              <span class="item">La Petite Princesse — Frances Hodgson Burnett<span class="detail">Un seul livre — édition connue, type Folio Junior</span></span>
+            </li>
+            <li class="tomes" data-from="17" data-to="21" data-name="Le Journal d'un Dégonflé">
+              <span class="item">Le Journal d'un Dégonflé<span class="detail">Une case par tome : T17 → T21 — une seule édition existante ✔</span></span>
+            </li>
+            <li class="tomes" data-from="3" data-to="114" data-name="One Piece">
+              <span class="item">One Piece<span class="detail">Une case par tome : T3 → T114 (T114 sort le 2 décembre) — une seule édition existante ✔</span></span>
+            </li>
           </ul>
 
-          <div class="section-title">🎲 Jeux</div>
+          <h2><span>🎲 Jeux de société</span><span class="rule"></span></h2>
           <ul>
-            <li><span class="box" data-item="Extension du Skyjo" tabindex="0" role="button" aria-pressed="false"></span><span class="item"><strong>Extension du Skyjo</strong></span></li>
+            <li><span class="box" data-key="Extension du Skyjo"></span><span class="item">Extension du Skyjo</span></li>
           </ul>
 
-          <div class="section-title">🎮 Jeux vidéo</div>
+          <h2><span>🎮 Jeux vidéo <em style="letter-spacing:0;text-transform:none;font-weight:500;">— Nintendo Switch 2</em></span><span class="rule"></span></h2>
           <ul>
-            <li><span class="box" data-item="Tomodachi Life" tabindex="0" role="button" aria-pressed="false"></span><span class="item"><strong>Tomodachi Life</strong></span></li>
-            <li><span class="box" data-item="Zelda : Ocarina of Time" tabindex="0" role="button" aria-pressed="false"></span><span class="item"><strong>Zelda : Ocarina of Time</strong></span></li>
-            <li><span class="box" data-item="Hyrule Warriors : Les Chroniques du Seau" tabindex="0" role="button" aria-pressed="false"></span><span class="item"><strong>Hyrule Warriors : Les Chroniques du Seau</strong></span></li>
-            <li><span class="box" data-item="Extension Pokémon : Z-A" tabindex="0" role="button" aria-pressed="false"></span><span class="item"><strong>Extension Pokémon : Z-A</strong></span></li>
+            <li><span class="box" data-key="Tomodachi Life"></span><span class="item">Tomodachi Life</span></li>
+            <li><span class="box" data-key="Zelda : Ocarina of Time"></span><span class="item">Zelda : Ocarina of Time</span></li>
+            <li><span class="box" data-key="Hyrule Warriors : Les Chroniques du Seau"></span><span class="item">Hyrule Warriors : Les Chroniques du Seau</span></li>
+            <li><span class="box" data-key="Extension Pokémon : Z-A"></span><span class="item">Extension Pokémon : Z-A</span></li>
           </ul>
 
-          <div class="section-title">🎄 Autres idées</div>
+          <h2><span>🎄 Autres idées</span><span class="rule"></span></h2>
           <ul>
-            <li><span class="box" data-item="Hercules DJ Essential Kit / Hercules DJ Learning Kit" tabindex="0" role="button" aria-pressed="false"></span><span class="item"><strong>Hercules DJ Essential Kit</strong> ou <strong>Hercules DJ Learning Kit</strong></span></li>
-            <li><span class="box" data-item="De l'argent" tabindex="0" role="button" aria-pressed="false"></span><span class="item"><strong>De l'argent</strong> — beaucoup de sous 💰</span></li>
-            <li><span class="box" data-item="Du chocolat" tabindex="0" role="button" aria-pressed="false"></span><span class="item"><strong>Du chocolat</strong> 🍫</span></li>
+            <li>
+              <span class="box" data-key="Hercules DJ Essential Kit / Hercules DJ Learning Kit"></span>
+              <span class="item">Hercules DJ Essential Kit <em style="font-size:13.5px;color:#7c7160;">ou</em> Hercules DJ Learning Kit</span>
+            </li>
+            <li><span class="box" data-key="De l'argent"></span><span class="item"><strong>De l'argent</strong> — beaucoup de sous 💰</span></li>
+            <li><span class="box" data-key="Du chocolat"></span><span class="item">Du chocolat 🍫</span></li>
           </ul>
 
           <footer class="footer">
@@ -362,7 +417,6 @@
       const nameInput = document.getElementById('giver-name');
       const summary = document.getElementById('summary');
       const toast = document.getElementById('toast');
-      const boxes = [...document.querySelectorAll('.box')];
       let toastTimer = null;
 
       function showToast(message) {
@@ -372,52 +426,49 @@
         toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
       }
 
-      function updateBoxState() {
-        boxes.forEach((box) => {
-          const checked = box.classList.contains('checked');
-          box.setAttribute('aria-pressed', String(checked));
-        });
+      function getSelectionMap() {
+        try {
+          return JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+        } catch (error) {
+          return {};
+        }
       }
 
       function saveState() {
-        const checkedItems = boxes.filter(box => box.classList.contains('checked')).map(box => box.dataset.item);
+        const selected = {};
+        document.querySelectorAll('.box.checked, .chip.checked').forEach((el) => {
+          selected[el.dataset.key] = true;
+        });
         localStorage.setItem(STORE_KEY, JSON.stringify({
           giver: nameInput.value.trim(),
-          checked: checkedItems
+          selected: selected
         }));
       }
 
       function loadState() {
-        try {
-          const raw = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
-          if (raw.giver) nameInput.value = raw.giver;
-          const selected = new Set(raw.checked || []);
-          boxes.forEach(box => {
-            if (selected.has(box.dataset.item)) {
-              box.classList.add('checked');
-            }
-          });
-        } catch (error) {
-          console.warn('Erreur de lecture du stockage local:', error);
-        }
+        const state = getSelectionMap();
+        if (state.giver) nameInput.value = state.giver;
+        const selected = state.selected || {};
+        document.querySelectorAll('.box, .chip').forEach((el) => {
+          if (selected[el.dataset.key]) el.classList.add('checked');
+        });
       }
 
       function updateSummary() {
-        const selectedCount = boxes.filter(box => box.classList.contains('checked')).length;
-        if (selectedCount === 0) {
+        const count = document.querySelectorAll('.box.checked, .chip.checked').length;
+        if (count === 0) {
           summary.textContent = 'Aucun cadeau choisi pour l\'instant 🎁';
           return;
         }
         const giver = nameInput.value.trim() || 'Quelqu\'un';
-        summary.textContent = `${giver} a déjà réservé ${selectedCount} cadeau${selectedCount > 1 ? 'x' : ''} ✨`;
+        summary.textContent = `${giver} a déjà réservé ${count} cadeau${count > 1 ? 'x' : ''} ✨`;
       }
 
-      boxes.forEach(box => {
+      function bindSingleBox(box) {
         box.addEventListener('click', () => {
           box.classList.toggle('checked');
-          updateBoxState();
-          updateSummary();
           saveState();
+          updateSummary();
           showToast(box.classList.contains('checked') ? 'Cadeau réservé' : 'Cadeau annulé');
         });
 
@@ -427,7 +478,46 @@
             box.click();
           }
         });
-      });
+      }
+
+      function createTomeGrid(li) {
+        const from = Number(li.dataset.from);
+        const to = Number(li.dataset.to);
+        const name = li.dataset.name;
+        const suffix = li.dataset.suffix || '';
+        const grid = document.createElement('div');
+        grid.className = 'chips';
+
+        for (let n = from; n <= to; n++) {
+          const chip = document.createElement('button');
+          chip.type = 'button';
+          chip.className = 'chip';
+          chip.textContent = `T${n}`;
+          chip.dataset.key = `${name}${suffix} T${n}`;
+          chip.setAttribute('aria-label', `${name}${suffix} tome ${n}`);
+
+          chip.addEventListener('click', () => {
+            chip.classList.toggle('checked');
+            saveState();
+            updateSummary();
+            showToast(chip.classList.contains('checked') ? 'Tome réservé' : 'Tome annulé');
+          });
+
+          chip.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              chip.click();
+            }
+          });
+
+          grid.appendChild(chip);
+        }
+
+        li.appendChild(grid);
+      }
+
+      document.querySelectorAll('.box').forEach(bindSingleBox);
+      document.querySelectorAll('.tomes').forEach(createTomeGrid);
 
       nameInput.addEventListener('input', () => {
         updateSummary();
@@ -449,7 +539,6 @@
       })();
 
       loadState();
-      updateBoxState();
       updateSummary();
     </script>
   </body>
