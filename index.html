@@ -332,7 +332,7 @@
         .card { box-shadow: none; }
       }
 
-      .cagnotte-btn { display:block; width:fit-content; margin-top:10px; font-size:12.5px; font-weight:600; color:var(--gold); background:var(--gold-soft); border:1.5px solid #e6d5ab; border-radius:999px; padding:4px 14px; cursor:pointer; user-select:none; }
+      .cagnotte-btn { display:block; width:fit-content; margin-top:10px; font-size:12.5px; font-weight:600; color:var(--gold); background:var(--gold-soft); border:1.5px solid #e6d5ab; border-radius:999px; padding:6px 12px; cursor:pointer; }
       .cagnotte-btn:hover { background:#efe0bb; }
       .cagnotte { flex:1 0 100%; margin:14px 0 0; background:#fffdf6; border:1.5px solid #e6d5ab; border-radius:14px; padding:14px 16px; font-size:14px; }
       .cagnotte .row { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:10px; }
@@ -580,7 +580,7 @@
         steps.forEach(function (step) {
           var stepNum = Number(step.dataset.step);
           step.classList.toggle('open', stepNum === currentStep);
-          step.classList.toggle('done', stepNum < currentStep);
+          step.classList.toggle('done', stepNum <= currentStep && currentStep > 0);
         });
 
         var done = steps.filter(function (step) { return step.classList.contains('done'); }).length;
